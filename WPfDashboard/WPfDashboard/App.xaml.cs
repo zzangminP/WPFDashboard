@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Wpf.Ui;
+using WPfDashboard.Interfaces;
 using WPfDashboard.Services;
 using WPfDashboard.ViewModels.Pages;
 using WPfDashboard.ViewModels.Windows;
@@ -46,6 +47,7 @@ namespace WPfDashboard
                 services.AddSingleton<INavigationWindow, MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
 
+                services.AddSingleton<IDateTime, DateTimeService>();
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<DataPage>();
