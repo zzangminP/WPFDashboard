@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WPfDashboard.Models;
 using WPfDashboard.Interfaces;
+using System.Diagnostics.Eventing.Reader;
 
 namespace WPfDashboard.Services
 {
@@ -20,27 +21,51 @@ namespace WPfDashboard.Services
 
         public void Create(WorldPopulation entity)
         {
-            throw new NotImplementedException();
+            this._wpfProjectDatabaseContext?.Add(entity);
+            this._wpfProjectDatabaseContext?.SaveChanges();
         }
 
-        public void Delete(WorldPopulation entity)
+        public void Delete(int? id)
         {
-            throw new NotImplementedException();
+            var vaildData = this._wpfProjectDatabaseContext?.WorldPopulations.FirstOrDefault(c => c.Id == id);
+            if (vaildData != null)
+            {
+                this._wpfProjectDatabaseContext?.WorldPopulations.Remove(vaildData);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+
+            }
         }
+
+
 
         public List<WorldPopulation> Get()
         {
-            throw new NotImplementedException();
+            return this._wpfProjectDatabaseContext?.WorldPopulations.ToList();
         }
 
         public WorldPopulation? GetDetail(int? id)
         {
-            throw new NotImplementedException();
+
+            var vaildData = this._wpfProjectDatabaseContext?.WorldPopulations.FirstOrDefault(c => c.Id == id);
+            if (vaildData != null)
+            {
+                return vaildData;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+
+            }
+
         }
 
         public void Update(WorldPopulation entity)
         {
-            throw new NotImplementedException();
+            this._wpfProjectDatabaseContext?.WorldPopulations.Update(entity);
+            this._wpfProjectDatabaseContext?.SaveChanges();
         }
     }
 }

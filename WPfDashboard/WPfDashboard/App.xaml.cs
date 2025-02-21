@@ -51,7 +51,7 @@ namespace WPfDashboard
 
                 services.AddSingleton<WpfProjectDatabaseContext>();
                 services.AddSingleton<IDateTime, DateTimeService>();
-                services.AddSingleton<WorldPopulationService>();
+                services.AddSingleton<IDatabase<WorldPopulation>, WorldPopulationService>();
 
 
                 services.AddSingleton<DashboardPage>();

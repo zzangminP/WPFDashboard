@@ -12,10 +12,19 @@ namespace WPfDashboard.ViewModels.Pages
 
         private readonly IDateTime _iDatetime;
 
-        public DataViewModel(IDateTime dateTime)
+        private readonly IDatabase<WorldPopulation?>? _database;
+
+        [ObservableProperty]
+        private IEnumerable<string?>? _countryName;
+
+        [ObservableProperty]
+        private IEnumerable<WorldPopulation> _worldPopulations;
+
+
+        public DataViewModel(IDateTime dateTime, IDatabase<WorldPopulation> database)
         {
-            this._iDatetime = dateTime;            
-            
+            this._iDatetime = dateTime;
+            this._database = database;            
         }
 
 
@@ -28,37 +37,25 @@ namespace WPfDashboard.ViewModels.Pages
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
-                InitializeViewModel();
+                InitializeViewModelASync();
         }
 
 
         public void OnNavigatedFrom() { }
-          
 
-        private void InitializeViewModel()
+
+        private async Task InitializeViewModelASync()
         {
-            /*
-            var random = new Random();
-            var colorCollection = new List<DataColor>();
+            this.WorldPopulations = await Task.Run(() => this._database?.Get());
 
-            for (int i = 0; i < 8192; i++)
-                colorCollection.Add(
-                    new DataColor
-                    {
-                        Color = new SolidColorBrush(
-                            Color.FromArgb(
-                                (byte)200,
-                                (byte)random.Next(0, 250),
-                                (byte)random.Next(0, 250),
-                                (byte)random.Next(0, 250)
-                            )
-                        )
-                    }
-                );
+            if (this.WorldPopulations != null)
+            {
+                this.CountryName = this.WorldPopulations.Select( c => c.CountryName).ToList();
+            }
 
-            Colors = colorCollection;
-                                      */
+
             _isInitialized = true;
-        } 
+
+        }
     }
 }
